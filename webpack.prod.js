@@ -33,7 +33,7 @@ module.exports = merge(baseConfig, {
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          'style-loader',
           {
             loader: 'css-loader',
             options: { importLoaders: 1 },
@@ -47,8 +47,40 @@ module.exports = merge(baseConfig, {
           },
         ],
       },
+      {
+        test: /\.css$/,
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              importLoaders: 1,
+              modules: {
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+              }
+            },
+          },
+          {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              plugins: () => [
+                require('autoprefixer'),
+                require('postcss-nesting')
+              ]
+            },
+          },
+        ],
+      },
+      { 
+          test: /\.(png|jpe?g|gif)$/i,
+          loader: 'file-loader',
+          options: {
+          name: '[path][name].[ext]',
+        }, 
+      },
     ],
   },
+  
   plugins: [
     new CleanWebpackPlugin('dist', { root: __dirname }),
     new OptimizeCssAssetsPlugin(),
@@ -63,6 +95,8 @@ module.exports = merge(baseConfig, {
       'process.env.version': JSON.stringify(gitRevisionPlugin.commithash().slice(0, 7)), // TODO: delete when real
       DEPLOYED_ADDRESS: JSON.stringify(fs.readFileSync('deployedAddress', 'utf8').replace(/\n|\r/g, "")),
       DEPLOYED_ABI: fs.existsSync('deployedABI') && fs.readFileSync('deployedABI', 'utf8'),
+      EPLOYED_ADDRESS2: JSON.stringify(fs.readFileSync('deployedAddress2', 'utf8').replace(/\n|\r/g, "")),
+      DEPLOYED_ABI2: fs.existsSync('deployedABI2') && fs.readFileSync('deployedABI2', 'utf8'),
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',

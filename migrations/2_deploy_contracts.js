@@ -1,27 +1,43 @@
-const Klaystagram = artifacts.require('./Klaystagram.sol')
 const fs = require('fs')
+const AdditionGame = artifacts.require('./AdditionGame.sol')
+const Voteitem = artifacts.require('./Voteitem.sol')
 
 module.exports = function (deployer) {
-  deployer.deploy(Klaystagram)
-    .then(() => {
-    if (Klaystagram._json) {
-      // 1. Record recently deployed contract's abi file to 'deployedABI'
-      fs.writeFile(
-        'deployedABI',
-        JSON.stringify(Klaystagram._json.abi, 2),
-        (err) => {
-          if (err) throw err
-          console.log(`The abi of ${Klaystagram._json.contractName} is recorded on deployedABI file`)
-        })
-    }
+  deployer.deploy(AdditionGame)
+  .then(()=>{
+      if(AdditionGame._json){
+          fs.writeFile('deployedABI',JSON.stringify(AdditionGame._json.abi),
+            (err) =>{
+                if(err) throw err;
+                console.log('파일에 ABI 입력 성공');
+            }
+          )
 
-    // 2. Record recently deployed contract's address to 'deployedAddress'
-    fs.writeFile(
-      'deployedAddress',
-      Klaystagram.address,
-      (err) => {
-        if (err) throw err
-        console.log(`The deployed contract address * ${Klaystagram.address} * is recorded on deployedAddress file`)
-    })
+          fs.writeFile('deployedAddress',AdditionGame.address,
+             (err) =>{
+                if(err) throw err;
+                console.log('파일에 주소 입력 성공');
+            }
+          )
+      }
+  })
+
+  deployer.deploy(Voteitem)
+  .then(()=>{
+      if(AdditionGame._json){
+          fs.writeFile('deployedABI2',JSON.stringify(Voteitem._json.abi),
+            (err) =>{
+                if(err) throw err;
+                console.log('파일에 ABI2 입력 성공');
+            }
+          )
+
+          fs.writeFile('deployedAddress2',Voteitem.address,
+             (err) =>{
+                if(err) throw err;
+                console.log('파일에 주소 2 입력 성공');
+            }
+          )
+      }
   })
 }

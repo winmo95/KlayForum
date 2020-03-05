@@ -17,3 +17,13 @@ export const getWallet = () => {
   if (!caver.klay.accounts.wallet.length) return null
   return caver.klay.accounts.wallet[0]
 }
+
+export const checkValidKeystore = (keystore) =>{
+  const parsedKeystore = JSON.parse(keystore);
+  const isValidKeystore = parsedKeystore.version &&
+      parsedKeystore.id &&
+      parsedKeystore.address &&
+      parsedKeystore.crypto;  
+
+    return isValidKeystore;
+}

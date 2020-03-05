@@ -21,7 +21,7 @@ Klaystagram is a practical BApp examples with complete source code and explanati
 2. Clone the repo by running `git clone https://github.com/klaytn/klaystagram.git`
 3. Run `npm install`to install node packages
 4. Run `npm run local`
-5. App should be running in https://localhost:8888
+5. App should be running in https://localhost:8080
 
 ### 3) npm package information
 > dependencies
